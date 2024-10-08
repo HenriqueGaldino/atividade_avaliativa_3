@@ -1,4 +1,4 @@
-# Prova Professoro: Jackson Machado
+# Prova Professor: Jackson Machado
 
 # Feito Por: Henrique Andrion Galdino
 
