@@ -99,7 +99,7 @@ public class Principal {
                         System.out.println("Digite o ID do curso: ");
                         int idCur = scanner.nextInt();
                         scanner.nextLine();
-                        
+
                         // Busca manual do curso pelo ID
                         Curso cursoEscolhido = null;
                         for (Curso cur : cursos) {
@@ -166,9 +166,6 @@ public class Principal {
                     System.out.println("Opção inválida. Tente novamente.");
                     break;
             }
-
         } while (opt != 7);
-
-        scanner.close();
     }
 }
