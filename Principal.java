@@ -20,126 +20,151 @@ public class Principal {
             System.out.println("[5] - Listar Cursos");
             System.out.println("[6] - Listar Alunos");
             System.out.println("[7] - Sair");
-            // Le a opção do usuario e trata possíveis exceções
-               try {
-                opt = scanner.nextInt();
-                scanner.nextLine();  
-            } catch (Exception e) {
-                System.out.println("Opção inválida");
-                scanner.nextLine();  
-                continue;
-            }
 
-            // Casdastrar Professor 
+            opt = scanner.nextInt();
+            scanner.nextLine(); 
             switch (opt) {
                 case 1:
-                    System.out.println("Digite o ID do professor: ");
-                    int idProfessor = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Digite o nome do professor: ");
-                    String nomeProfessor = scanner.nextLine();
-                    System.out.println("Digite o departamento do professor: ");
-                    String departamento = scanner.nextLine();
-                    Professor professor = new Professor(idProfessor, nomeProfessor, departamento);
-                    professores.add(professor);
-                    System.out.println("Professor cadastrado com sucesso!");
+                    try {
+                        System.out.println("Digite o ID do professor: ");
+                        int idProfessor = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Digite o nome do professor: ");
+                        String nomeProfessor = scanner.nextLine();
+                        System.out.println("Digite o departamento do professor: ");
+                        String departamento = scanner.nextLine();
+                        Professor professor = new Professor(idProfessor, nomeProfessor, departamento);
+                        professores.add(professor);
+                        System.out.println("Professor cadastrado com sucesso!");
+                    } catch (Exception e) {
+                        System.out.println("Erro ao cadastrar professor. Entrada inválida.");
+                        scanner.nextLine(); 
+                    }
                     break;
-                 // Cadastrar Curso   
+
                 case 2:
-                    System.out.println("Digite o ID do curso: ");
-                    int idCurso = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Digite o nome do curso: ");
-                    String nomeCurso = scanner.nextLine();
-                    System.out.println("Digite a carga horária do curso: ");
-                    int cargaHoraria = scanner.nextInt();
-                    scanner.nextLine();
+                    try {
+                        System.out.println("Digite o ID do curso: ");
+                        int idCurso = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Digite o nome do curso: ");
+                        String nomeCurso = scanner.nextLine();
+                        System.out.println("Digite a carga horária do curso: ");
+                        int cargaHoraria = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Selecione o ID do professor responsável: ");
+                        for (Professor prof : professores) {
+                            System.out.println("ID: " + prof.getId() + ", Nome: " + prof.getNome());
+                        }
+                        System.out.println("Digite o ID do professor: ");
+                        int idProf = scanner.nextInt();
+                        scanner.nextLine();
 
-                    System.out.println("Selecione o ID do professor responsável: ");
-                    for (Professor prof : professores) {
-                        System.out.println("ID: " + prof.getId() + ", Nome: " + prof.getNome());
-                    }
-                    int idProf = scanner.nextInt();
-                    scanner.nextLine();
-                    Professor profResponsavel = professores.stream()
-                            .filter(p -> p.getId() == idProf)
-                            .findFirst()
-                            .orElse(null);
-                    // Se o professor for encontrado cria o curso
-                    if (profResponsavel != null) {
-                        Curso curso = new Curso(idCurso, nomeCurso, cargaHoraria, profResponsavel);
-                        cursos.add(curso);
-                        System.out.println("Curso cadastrado com sucesso!");
-                    } else {
-                        System.out.println("Professor não encontrado.");
+                        // Busca manual do professor pelo ID
+                        Professor profResponsavel = null;
+                        for (Professor prof : professores) {
+                            if (prof.getId() == idProf) {
+                                profResponsavel = prof;
+                                break;
+                            }
+                        }
+                        if (profResponsavel != null) {
+                            Curso curso = new Curso(idCurso, nomeCurso, cargaHoraria, profResponsavel);
+                            cursos.add(curso);
+                            System.out.println("Curso cadastrado com sucesso!");
+                        } else {
+                            System.out.println("Professor não encontrado.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro ao cadastrar curso. Entrada inválida.");
+                        scanner.nextLine();
                     }
                     break;
 
-                    //Cadastar Aluno
                 case 3:
-                    System.out.println("Digite o ID do aluno: ");
-                    int idAluno = scanner.nextInt();
-                    scanner.nextLine();
-                    System.out.println("Digite o nome do aluno: ");
-                    String nomeAluno = scanner.nextLine();
-                    System.out.println("Digite a data de nascimento do aluno: ");
-                    String dataNascimento = scanner.nextLine();
-                    System.out.println("Digite o CPF do aluno: ");
-                    String cpf = scanner.nextLine();
-
-                    System.out.println("Selecione o ID do curso: ");
-                    for (Curso cur : cursos) {
-                        System.out.println("ID: " + cur.getId() + ", Nome: " + cur.getNome());
-                    }
-                    int idCur = scanner.nextInt();
-                    scanner.nextLine();
-                    Curso cursoEscolhido = cursos.stream() // Busca o curso correspondente ao ID fornecido pelo usuario
-                            .filter(c -> c.getId() == idCur) 
-                            .findFirst()
-                            .orElse(null);
-
-                    if (cursoEscolhido != null) {// Verifica se o curso foi encontrado
-                        Aluno aluno = new Aluno(idAluno, nomeAluno, dataNascimento, cpf, cursoEscolhido);
-                        alunos.add(aluno);
-                        cursoEscolhido.adicionarAluno(aluno);
-                        System.out.println("Aluno cadastrado com sucesso!");
-                    } else {
-                        System.out.println("Curso não encontrado.");
+                    try {
+                        System.out.println("Digite o ID do aluno: ");
+                        int idAluno = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Digite o nome do aluno: ");
+                        String nomeAluno = scanner.nextLine();
+                        System.out.println("Digite a data de nascimento do aluno: ");
+                        String dataNascimento = scanner.nextLine();
+                        System.out.println("Digite o CPF do aluno: ");
+                        String cpf = scanner.nextLine();
+                        System.out.println("Selecione o ID do curso: ");
+                        for (Curso cur : cursos) {
+                            System.out.println("ID: " + cur.getId() + ", Nome: " + cur.getNome());
+                        }
+                        System.out.println("Digite o ID do curso: ");
+                        int idCur = scanner.nextInt();
+                        scanner.nextLine();
+                        
+                        // Busca manual do curso pelo ID
+                        Curso cursoEscolhido = null;
+                        for (Curso cur : cursos) {
+                            if (cur.getId() == idCur) {
+                                cursoEscolhido = cur;
+                                break;
+                            }
+                        }
+                        if (cursoEscolhido != null) {
+                            Aluno aluno = new Aluno(idAluno, nomeAluno, dataNascimento, cpf, cursoEscolhido);
+                            alunos.add(aluno);
+                            cursoEscolhido.adicionarAluno(aluno);
+                            System.out.println("Aluno cadastrado com sucesso!");
+                        } else {
+                            System.out.println("Curso não encontrado.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro ao cadastrar aluno. Entrada inválida.");
+                        scanner.nextLine();
                     }
                     break;
-                    
-                    //Listar Professor 
-                    case 4:
-                    for (Professor prof : professores) {
-                        long count = cursos.stream().filter(c -> c.getProfessor().getId() == prof.getId()).count();
-                        System.out.println("Professor: " + prof.getNome() + ", Departamento: " + prof.getDepartamento() + ", Cursos: " + count);
+
+                case 4:
+                    try {
+                        for (Professor prof : professores) {
+                            long count = 0;
+                            for (Curso c : cursos) {
+                                if (c.getProfessor().getId() == prof.getId()) {
+                                    count++;
+                                }
+                            }
+                            System.out.println("Professor: " + prof.getNome() + ", Departamento: " + prof.getDepartamento() + ", Cursos: " + count);
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro ao listar professores.");
                     }
                     break;
 
-                    //Listar Curso
                 case 5:
-                    for (Curso cur : cursos) {
-                        System.out.println("Curso: " + cur.getNome() + ", Carga Horária: " + cur.getCargaHoraria() + ", Professor: " + cur.getProfessor().getNome());
+                    try {
+                        for (Curso cur : cursos) {
+                            System.out.println("Curso: " + cur.getNome() + ", Carga Horária: " + cur.getCargaHoraria() + ", Professor: " + cur.getProfessor().getNome());
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro ao listar cursos.");
                     }
                     break;
 
-                    //Listar Aluno
                 case 6:
-                    for (Aluno al : alunos) {
-                        System.out.println("Aluno: " + al.getNome() + ", Data de Nascimento: " + al.getDataNascimento() + ", CPF: " + al.getCpf() + ", Curso: " + al.getCurso().getNome());
+                    try {
+                        for (Aluno al : alunos) {
+                            System.out.println(
+                                    "Aluno: " + al.getNome() + ", Data de Nascimento: " + al.getDataNascimento() + ", CPF: " + al.getCpf() + ", Curso: " + al.getCurso().getNome());
+                        }
+                    } catch (Exception e) {
+                        System.out.println("Erro ao listar alunos.");
                     }
                     break;
 
-                    //Opção para sair
                 case 7:
                     System.out.println("Saindo...");
                     break;
-
-                    //Opeção invalida
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
                     break;
-
             }
 
         } while (opt != 7);
@@ -147,4 +172,3 @@ public class Principal {
         scanner.close();
     }
 }
-
